@@ -1,0 +1,5 @@
+- find gibt den Index des ersten gefundenen Elemntes, welches matched.
+- was sollen find und retrieve zurueck geben, wenn das element nicht gefunden wird?
+- concat ist zu ungenau.
+
+
