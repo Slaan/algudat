@@ -1,5 +1,6 @@
 % Author: Daniel Hofmeister
 -module(stack).
+-compile(liste).
 -export([createS/0, push/2, pop/1, top/1, isEmptyS/1]).
 
 %createS: durch internes create von ADT Liste einen Stack anlegen
