@@ -11,7 +11,6 @@ createQ() -> [stack:createS(),stack:createS()].
 %front: das zuerst hinzugefügte Element wird ausgegeben. Ist der Ausgabestack
 %leer, werden zuerst alle aus dem Eingabestack in den Ausgabestack umgestapelt.
 %front(Queue) -> Elem
-front([{},{}]) -> nil;
 front([Input,Output]) -> case stack:isEmptyS(Output) of
 							true -> Restacked = restack(Input,Output),stack:top(Restacked);
 							false -> stack:top(Output)
