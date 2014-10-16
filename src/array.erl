@@ -11,17 +11,17 @@ setA(List, Pos, Elem) ->
     Size  = liste:laenge(List),
         if 
             Size >= ListPos ->
-            CList = liste:delete(List, ListPos),
-            liste:insert(CList, ListPos, Elem);
+                CList = liste:delete(List, ListPos),
+                liste:insert(CList, ListPos, Elem);
             Size < ListPos -> 
-            L = liste:insert(List, Size+1, 0),
-            setA(L, Pos, Elem)
+                L = liste:insert(List, Size+1, 0),
+                setA(L, Pos, Elem)
         end.
 
 % getA(Array, Pos) -> Elem
 getA({}, _) -> 0;
 getA(List, Pos) ->
-        ListPos = Pos + 1,
+        ListPos = Pos + 1,  
         Size    = liste:laenge(List),
         if
             Size < ListPos -> 0;
