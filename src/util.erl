@@ -4,7 +4,8 @@
 
 %zahlenfolge(Dateiname,Anzahl,Min,Max)	 
 zahlenfolge(Name,Num,Min,Max) ->
-	case file:write_file(Name, randomliste(Num, Min, Max)) of
+	List = randomliste(Num,Min,Max),
+	case file:write_file(Name, List) of
 		ok -> ok;
 		{error, Reason} -> {error,Reason} 
 	end.
@@ -182,3 +183,10 @@ minTwo(List) ->
 		_ -> List
 	end.				
 
+%% Tauscht zwei Elemente eines Arrays.
+% Array x Int x Int -> Array
+% Die Ints sind dabei der Indizes der zu tauschenden Elemente.
+
+swap(Array,Pos1,Pos2) -> Tmp = array:getA(Array,Pos1),
+					     Array1 = array:setA(Array,Pos1,array:getA(Array,Pos2)),
+						 _Result = array:setA(Array1,Pos2,Tmp).
