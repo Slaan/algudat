@@ -10,36 +10,36 @@ isEmpty({_, _}) -> false.
 
 % laenge(List) -> Length (int).
 % laenge({}) -> 0;
-%laenge({_, X}) -> laenge(X) + 1.
+%laenge({_,X}) -> laenge(X) + 1.
 laenge(Liste) -> laenge_(0, Liste).
 laenge_(Accu, {}) -> Accu;
-laenge_(Accu, {_, R}) -> laenge_(Accu+1, R).
+laenge_(Accu, {_,R}) -> laenge_(Accu+1, R).
 
 % insert(List, Pos, Elem) -> List.
-insert({},    1,   Elem) -> {Elem, {}};
-insert({X,L}, 1,   Elem) -> {Elem, {X, L}};
-insert({X,L}, Pos, Elem) -> {X, insert(L, Pos-1, Elem)};
-insert(List, _,   _)    -> List.
+insert({},    1,   Elem) -> {Elem,{}};
+insert({X,L}, 1,   Elem) -> {Elem,{X,L}};
+insert({X,L}, Pos, Elem) -> {X,insert(L, Pos-1, Elem)};
+insert(List, _, _)    -> List.
 
 % delete(List, Pos) -> List.
 delete({}, _) -> {};
 delete(List, nil) -> List;
-delete({_F, R}, 1) -> R;  % delete F
-delete({F, R}, Pos) -> {F, delete(R, Pos-1)};
+delete({_F,R}, 1) -> R;  % delete F
+delete({F,R}, Pos) -> {F,delete(R, Pos-1)};
 delete(List, _) -> List.
 
 % find(List, Elem) -> Pos.
 find(List, Elem) -> find_(List, Elem, 1).
 find_({}, _Elem, _Accu) -> nil;
-find_({Elem, _R}, Elem, Accu) -> Accu;
-find_({_F, R}, Elem, Accu) -> find_(R, Elem, Accu+1).
+find_({Elem,_R}, Elem, Accu) -> Accu;
+find_({_F,R}, Elem, Accu) -> find_(R,Elem,Accu+1).
 
 % retrieve(List, Pos) -> Elem.
 retrieve(List, Pos) -> retrieve_(List, Pos, 1).
 retrieve_({}, _, _) -> nil;
-retrieve_({F, _R}, Accu, Accu) -> F;
-retrieve_({_F, R}, Pos, Accu)  -> retrieve_(R, Pos, Accu+1).
+retrieve_({F,_R}, Accu, Accu) -> F;
+retrieve_({_F,R}, Pos, Accu)  -> retrieve_(R, Pos, Accu+1).
 
 % concat(List, List) -> List.
 concat({}, List)   -> List;
-concat({F, R}, List) -> {F, concat(R, List)}.
+concat({F,R}, List) -> {F, concat(R, List)}.

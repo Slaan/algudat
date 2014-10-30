@@ -1,13 +1,21 @@
 -module(util).
 -compile(export_all).
+-compile(array).
 -define(ZERO, integer_to_list(0)).
 
 %zahlenfolge(Dateiname,Anzahl,Min,Max)	 
-zahlenfolge(Name,Num,Min,Max) ->
-	List = randomliste(Num,Min,Max),
-	case file:write_file(Name, List) of
-		ok -> ok;
-		{error, Reason} -> {error,Reason} 
+zahlenfolge(Name,Num,Min,Max,Case) ->
+	List = build_list(Num,Min,Max,Case),
+	case file_write(Name,List) of
+   		 ok -> ok;
+		 {error, Reason} -> {error,Reason} 
+	end.
+	
+build_list(Num,Min,Max,Case) ->
+	case Case of
+		rd -> randomliste(Num,Min,Max);
+		bc -> sortliste(Num);
+		wc -> resortliste(Num)
 	end.
 
 randomliste(Num,Min,Max) ->
@@ -18,6 +26,33 @@ sortliste(Num) ->
 	lists:seq(1, Num).
 resortliste(Num) ->
 	lists:reverse(lists:seq(1, Num)).
+
+%% ------------------------------------------
+%File utilities
+%file_write(FileName,Content)
+file_write(FileName,Content) ->
+	file:write_file(FileName,io_lib:fwrite("~p.\n",[Content])).
+	
+%file_read(FileName)
+file_read(FileName) ->
+	{ok,T} = file:consult(FileName),
+	[Content|_] = T,
+	Content.
+
+
+%% -------------------------------------------
+%list_to_array(List) -> Array
+%Converts a List to our own ADT Array
+list_to_array(List) -> 
+	Array = array:initA(),
+	Index = 0,
+	list_to_array_(List,Index,Array).
+	
+list_to_array_([],_,Array) -> Array;
+list_to_array_([H|T],Index,Array) ->
+	NewArray = array:setA(Array,Index,H),
+	list_to_array_(T,Index+1,NewArray).
+	
 	
 %% -------------------------------------------
 % Ermittelt den Typ
