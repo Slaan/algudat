@@ -21,7 +21,7 @@ build_list(Num,Min,Max,Case) ->
 randomliste(Num,Min,Max) ->
 	RangeInt = Max-Min,
 	lists:flatten([random:uniform(RangeInt+1) + Min-1 || _ <- lists:seq(1, Num)]).
-
+	
 sortliste(Num) ->
 	lists:seq(1, Num).
 resortliste(Num) ->
