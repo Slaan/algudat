@@ -3,10 +3,11 @@
 -compile(array).
 -define(ZERO, integer_to_list(0)).
 
-%zahlenfolge(Dateiname,Anzahl,Min,Max)	 
+%zahlenfolge(Dateiname,Anzahl,Min,Max,Case)	 
 zahlenfolge(Name,Num,Min,Max,Case) ->
 	List = build_list(Num,Min,Max,Case),
-	case file_write(Name,List) of
+	Array = list_to_array(List),
+	case file_write(Name,Array) of
    		 ok -> ok;
 		 {error, Reason} -> {error,Reason} 
 	end.
