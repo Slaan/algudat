@@ -3,22 +3,17 @@
 -compile(util).
 -export([insertionsort/1, insert/2]).
 
-% insertionsort: Array -> Array
+% sorts given array 
 insertionsort(A) ->
         Accu  = array:initA(),
         Size  = array:lengthA(A),
         Index = 0,
         insertionsort_(A, Accu, Index, Size).
 
-insertionsort_(A, Accu, Index, Size) ->
-        if 
-          Index < Size ->
-            Elem = array:getA(A, Index),
-            Newaccu = insert(Accu, Elem),
-            insertionsort_(A, Newaccu, Index+1, Size);
-          true ->
-            Accu
-        end.
+insertionsort_(A, Accu, Index, Index) -> Accu.
+insertionsort_(A, Accu, Index, Size)  -> Elem = array:getA(A, Index),
+                                         Newaccu = insert(Accu, Elem),
+                                         insertionsort_(A, Newaccu, Index+1, Size).
 
 % insert: Array x Elem -> Array
 % inserts Elem in Accu an array
@@ -29,9 +24,11 @@ insert(Accu, Elem) ->
 insert_(Accu, I) ->
         Curr = array:getA(Accu, I),
         Prev = array:getA(Accu, I-1),
+        % vergleich
         if 
           Curr < Prev -> 
             NewAccu = util:swap(Accu, I, I-1),
+            % verschiebung
             insert_(NewAccu, I-1);
           true ->
             Accu
