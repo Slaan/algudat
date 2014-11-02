@@ -10,7 +10,7 @@ insertionsort(A) ->
         Index = 0,
         insertionsort_(A, Accu, Index, Size).
 
-insertionsort_(A, Accu, Index, Index) -> Accu.
+insertionsort_(_A, Accu, Index, Index) -> Accu;
 insertionsort_(A, Accu, Index, Size)  -> Elem = array:getA(A, Index),
                                          Newaccu = insert(Accu, Elem),
                                          insertionsort_(A, Newaccu, Index+1, Size).
