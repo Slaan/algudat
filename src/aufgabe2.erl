@@ -54,6 +54,10 @@ sort(Sort) ->
 							insertion -> {Time,Sorted} = timer:tc(ins_sort,insertionsort,[Unsorted]),
 										 util:file_write('sortiert.dat',Sorted),
 										 {[Time],[],[]}
+							insertion_c -> {Time,Result} = timer:tc(ins_sort,ins_sort_counter,[Unsorted]),
+										 {Vergleich,Verschiebung,Sorted} = Result,
+										 util:file_write('sortiert.dat',Sorted),
+										 {[Time],[Vergleich],[Verschiebung]};
 					end.
 			
 			
