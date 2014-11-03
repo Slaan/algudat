@@ -1,4 +1,4 @@
--module(sel_sort).
+-module(sel_sort_2).
 -compile(array).
 -compile(util).
 -export([sel_sort/1,sel_sort_counter/1]).

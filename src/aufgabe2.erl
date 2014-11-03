@@ -125,7 +125,3 @@ generate_output(Sort,Num,Indicators) ->
 			file:close(File),
 			io:fwrite(Format,Arguments).					
 			
-			
-			
-			
-			

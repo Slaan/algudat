@@ -34,8 +34,8 @@ getMin(Array,MinI,I,Length) -> Elem1 = array:getA(Array,MinI),
 sel_sort_counter(Array) ->
 		%util:countstop(vergleich),
 		I = array:lengthA(Array),
-		%sel_sort(Array,0,I,0,0).
-		{Vergleich,Verschiebung,Result} = sel_sort(Array,0,I,0,0).
+		sel_sort(Array,0,I,0,0).
+		%{Vergleich,Verschiebung,Result} = sel_sort(Array,0,I,0,0).
 		%Vergleich = util:countread(vergleich),
 		%{Vergleich,Verschiebung,Result}.
 		
@@ -48,7 +48,7 @@ sel_sort(Array,I,Length,Verschiebung,Vergleich) ->
 								false -> NewArray = util:swap(Array,I,MinPos),
 										NewVerschiebung = Verschiebung+1
 							end,
-							sel_sort(NewArray,I+1,Length,NewVerschiebung,NewVergleich).
+							sel_sort(NewArray,I+1,Length,NewVerschiebung,NewVergleich+1).
 
 getMin_(_Array,MinI,I,I,Vergleich) -> {MinI,Vergleich};
 getMin_(Array,MinI,I,Length,Vergleich) ->
