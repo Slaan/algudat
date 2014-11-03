@@ -39,8 +39,22 @@ file_read(FileName) ->
 	{ok,T} = file:consult(FileName),
 	[Content|_] = T,
 	Content.
+%% ----------------------------------------------
+%List Operations
+%Definiert die Rückgabe 0 für leere Liste bei der Bestimmung eines Minimums und Maximums
+min([]) -> 0;
+min(List) -> lists:min(List).
 
+max([]) -> 0;
+max(List) -> lists:max(List).
 
+% Swap/3 tauscht zwei Elemente eines Arrays.
+% Array x Int x Int -> Array
+% Die Ints sind dabei der Indizes der zu tauschenden Elemente.
+
+swap(Array,Pos1,Pos2) -> Tmp = array:getA(Array,Pos1),
+					     Array1 = array:setA(Array,Pos1,array:getA(Array,Pos2)),
+						 _Result = array:setA(Array1,Pos2,Tmp).
 %% -------------------------------------------
 %list_to_array(List) -> Array
 %Converts a List to our own ADT Array
@@ -125,12 +139,3 @@ countloop_(Count) -> receive
 						reset -> countloop_(0);
 						kill -> true
 					end.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% Tauscht zwei Elemente eines Arrays.
-% Array x Int x Int -> Array
-% Die Ints sind dabei der Indizes der zu tauschenden Elemente.
-
-swap(Array,Pos1,Pos2) -> Tmp = array:getA(Array,Pos1),
-					     Array1 = array:setA(Array,Pos1,array:getA(Array,Pos2)),
-						 _Result = array:setA(Array1,Pos2,Tmp).
