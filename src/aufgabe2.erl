@@ -14,24 +14,24 @@
 % Schreibt man ein "_c" (z.b. selection_c) hinter den Algorithmus werden bei der 
 % Ausgabe auch die Anzahl der Verschiebungen und gemachten Vergleiche ausgegeben.
 
-main(Sort,Num) -> Indicators={[],[],[]},
-				  main_(Sort,Num,Indicators).
+main(Sort,Num) -> 
+	Indicators = {[],[],[]},
+	main_(Sort,Num,Indicators).
+
+% Möglichkeit einen gewollten Algorithmus nur einmal auf einer bestimmten
+% Fall (zufällige Liste, sortierte Liste, anti-sortierte Liste) auszuführen.
+main(Sort,Num,Case) -> 
+	Indicators = {[],[],[]},
+	case Case of
+		single_rd -> main_single_rd(Sort,Num,Indicators);
+		single_bc -> main_single_bc(Sort,Num,Indicators);
+		single_wc -> main_single_wc(Sort,Num,Indicators)
+	end.
 				  
 % Hilfsfunktion des Hauptaufrufes. Erstellung der Zahlenlisten,
 % Sortierung dieser und anschließende Ausgabe der Indikatoren.
 
 main_(Sort,Num,Indicators) ->
-		%Filename = 'daten.dat',
-		%case (util:countread(rd)<80) of
-		%	true -> util:zahlenfolge(Filename,Num,1,Num*2,rd),
-		%			util:counting(rd,1),
-		%			{Time_o,Comp_o,Swaps_o} = Indicators,
-		%			{Time,Comp,Swaps} = sort(Sort),
-		%			NewIndicators = {Time ++ Time_o,Comp ++ Comp_o,Swaps ++ Swaps_o},
-		%			main_(Sort,Num,NewIndicators);					
-		%	false -> util:countstop(rd),
-		%			 false
-		%end,
 		Indicators_Random = random_main(Sort,Num,Indicators,80),
 		Indicators_Best = best_main(Sort,Num,Indicators,10),
 		Indicators_Worst = worst_main(Sort,Num,Indicators,10),
@@ -89,7 +89,7 @@ worst_main(Sort,Num,Indicators,Counter) ->
 					NewIndicators = get_indicators(Indicators,Sort),
 					worst_main(Sort,Num,NewIndicators,Counter-1).
 					
-%Gibt die nach der Ausführung des Algorithmus zurück..
+%Gibt die neuen Indicators nach der Ausführung des Algorithmus zurück.
 get_indicators(Indicators,Sort) -> 			
 					{Time_o,Comp_o,Swaps_o} = Indicators,
 					{Time,Comp,Swaps} = sort(Sort),
@@ -123,5 +123,15 @@ generate_output(Sort,Num,Indicators) ->
 		  Arguments = [Sort,Num,T_total,T_max,T_min,Vg_total,Vg_max,Vg_min,Vs_total,Vs_max,Vs_min],
 		  io:fwrite(File,Format,Arguments),
 			file:close(File),
-			io:fwrite(Format,Arguments).					
-			
+			io:fwrite(Format,Arguments).
+
+main_single_rd(Sort,Num,Indicators) -> 
+	NewIndicators = random_main(Sort,Num,Indicators,1),
+	generate_output(Sort,Num,NewIndicators).
+main_single_bc(Sort,Num,Indicators) -> Indicators.
+	NewIndicators = best_main(Sort,Num,Indicators,1),
+	generate_output(Sort,Num,NewIndicators).
+main_single_wc(Sort,Num,Indicators) -> Indicators.
+	NewIndicators = worst_main(Sort,Num,Indicators,1),
+	generate_output(Sort,Num,NewIndicators).
+	
