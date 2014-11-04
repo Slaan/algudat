@@ -30,9 +30,9 @@ getMin(Array,MinI,I,Length) -> Elem1 = array:getA(Array,MinI),
 									false -> getMin(Array,I,I+1,Length)
 							   end.
 
-%Aufruf mit Zählern							   
+%Aufruf mit Zählern
+%200 Elem Time = 502440000 mics ~ 8,37ishi minutes				   
 sel_sort_counter(Array) ->
-		%util:countstop(vergleich),
 		I = array:lengthA(Array),
 		sel_sort(Array,0,I,0,0).
 		%{Vergleich,Verschiebung,Result} = sel_sort(Array,0,I,0,0).
@@ -55,10 +55,8 @@ getMin_(Array,MinI,I,Length,Vergleich) ->
 							   Elem1 = array:getA(Array,MinI),
 							   Elem2 = array:getA(Array,I),
 							   case (Elem1 < Elem2) of
-									true -> %util:counting(vergleich,0),
-											NewVergleich = Vergleich+1,
+									true -> NewVergleich = Vergleich+1,
 											getMin_(Array,MinI,I+1,Length,NewVergleich); 
-									false -> %util:counting(vergleich,0), 
-											NewVergleich = Vergleich+1,
+									false -> NewVergleich = Vergleich+1,
 											getMin_(Array,I,I+1,Length,NewVergleich)
 							   end.
