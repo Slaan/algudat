@@ -47,10 +47,10 @@ main_(Sort,Num,Indicators) ->
 sort(Sort) ->
 			Unsorted = get_content(),
 			case Sort of
-					selection -> {Time,Sorted} = timer:tc(sel_sort_2,sel_sort,[Unsorted]),
+					selection -> {Time,Sorted} = timer:tc(sel_sort,sel_sort,[Unsorted]),
 								 util:file_write('sortiert.dat',Sorted),
 								 {[Time],[],[]};
-					selection_c -> {Time,Result} = timer:tc(sel_sort_2,sel_sort_counter,[Unsorted]),
+					selection_c -> {Time,Result} = timer:tc(sel_sort,sel_sort_counter,[Unsorted]),
 								 {Vergleich,Verschiebung,Sorted} = Result,
 								 util:file_write('sortiert.dat',Sorted),
 								 {[Time],[Vergleich],[Verschiebung]};
@@ -128,10 +128,10 @@ generate_output(Sort,Num,Indicators) ->
 main_single_rd(Sort,Num,Indicators) -> 
 	NewIndicators = random_main(Sort,Num,Indicators,1),
 	generate_output(Sort,Num,NewIndicators).
-main_single_bc(Sort,Num,Indicators) -> Indicators.
+main_single_bc(Sort,Num,Indicators) -> 
 	NewIndicators = best_main(Sort,Num,Indicators,1),
 	generate_output(Sort,Num,NewIndicators).
-main_single_wc(Sort,Num,Indicators) -> Indicators.
+main_single_wc(Sort,Num,Indicators) ->
 	NewIndicators = worst_main(Sort,Num,Indicators,1),
 	generate_output(Sort,Num,NewIndicators).
 	

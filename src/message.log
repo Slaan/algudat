@@ -1,11 +1,11 @@
-Algorithmus: selection_c 
-Number of Elements: 100 Elements
-Total Time: 810000 mics
-Maximal Time: 810000 mics
-Minimal Time: 810000 mics
-Total Comparisions: 5150 
-Maximal Comparisions: 5150 
-Minimal Comparisions: 5150 
-Total Switches: 95 
-Maximal Switches: 95 
-Minimal Switches: 95 
+Algorithmus: insertion_c 
+Number of Elements: 20 Elements
+Total Time: 30000 mics
+Maximal Time: 30000 mics
+Minimal Time: 30000 mics
+Total Comparisions: 118 
+Maximal Comparisions: 118 
+Minimal Comparisions: 118 
+Total Switches: 98 
+Maximal Switches: 98 
+Minimal Switches: 98 
