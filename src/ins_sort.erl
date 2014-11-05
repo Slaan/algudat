@@ -3,25 +3,22 @@
 -compile(util).
 -export([insertionsort/1, ins_sort_counter/1]).
 
-% sorts given array 
+% insertionsort: Array -> Array
+% sorts given array ascendent 
 insertionsort(A) ->
-        Accu  = array:initA(),
         Size  = array:lengthA(A),
-        Index = 0,
-        insertionsort_(A, Accu, Index, Size).
+        Index = 1,
+        insertionsort_(A, Index, Size).
 
-insertionsort_(_A, Accu, Index, Index) -> Accu;
-insertionsort_(A, Accu, Index, Size)  -> Elem = array:getA(A, Index),
-                                         Newaccu = insert(Accu, Elem),
-                                         insertionsort_(A, Newaccu, Index+1, Size).
+insertionsort_(A, Index, Index) -> A;
+insertionsort_(A, Index, Size)  ->
+        NewArray = insert(A, Index),
+        insertionsort_(NewArray, Index+1, Size).
 
-% insert: Array x Elem -> Array
-% inserts Elem in Accu an array
-insert(Accu, Elem) ->
-        Size = array:lengthA(Accu),
-        insert_(array:setA(Accu, Size, Elem), Size).
-
-insert_(Accu, I) ->
+% insert: Array x Index -> Array
+% sorts Elem of Index to correct positiony
+insert(Accu, 0) -> Accu;
+insert(Accu, I) ->
         Curr = array:getA(Accu, I),
         Prev = array:getA(Accu, I-1),
         % vergleich
@@ -29,7 +26,7 @@ insert_(Accu, I) ->
           Curr < Prev -> 
             NewAccu = util:swap(Accu, I, I-1),
             % verschiebung
-            insert_(NewAccu, I-1);
+            insert(NewAccu, I-1);
           true ->
             Accu
         end.
@@ -37,24 +34,19 @@ insert_(Accu, I) ->
 %%--------------------------------------------------------------------
 %Aufruf mit Zählern
 ins_sort_counter(A) ->
-		Accu  = array:initA(),
         Size  = array:lengthA(A),
-        Index = 0,
-        insertionsort_c(A, Accu, Index, Size,0,0).
+        Index = 1,
+        insertionsort_(A, Index, Size, 0, 0).
 
-insertionsort_c(_A, Accu, Index, Index,Vergleich,Verschiebung) -> {Vergleich,Verschiebung,Accu};
-insertionsort_c(A, Accu, Index, Size,Vergleich,Verschiebung)  -> 
-		Elem = array:getA(A, Index),
-        {Newaccu,NewVergleich,NewVerschiebung} = insert_c(Accu, Elem,Vergleich,Verschiebung),
-        insertionsort_c(A, Newaccu, Index+1, Size,NewVergleich,NewVerschiebung).
+insertionsort_(A, Index, Index, Vergleich, Verschiebung) -> {Vergleich, Verschiebung, A};
+insertionsort_(A, Index, Size, Vergleich, Verschiebung) ->
+        {NewVergleich, NewVerschiebung, NewArray} = insert(A, Index, Vergleich, Verschiebung),
+        insertionsort_(NewArray, Index+1, Size, NewVergleich, NewVerschiebung).
 
-% insert: Array x Elem -> Array
-% inserts Elem in Accu an array
-insert_c(Accu, Elem,Vergleich,Verschiebung) ->
-        Size = array:lengthA(Accu),
-        insert_c_(array:setA(Accu, Size, Elem), Size,Vergleich,Verschiebung).
-
-insert_c_(Accu, I,Vergleich,Verschiebung) ->
+% insert: Array x Index -> Array
+% sorts Elem of Index to correct positiony
+insert(Accu, 0, Vergleich, Verschiebung) -> {Vergleich, Verschiebung, Accu};
+insert(Accu, I, Vergleich, Verschiebung) ->
         Curr = array:getA(Accu, I),
         Prev = array:getA(Accu, I-1),
         % vergleich
@@ -62,7 +54,7 @@ insert_c_(Accu, I,Vergleich,Verschiebung) ->
           Curr < Prev -> 
             NewAccu = util:swap(Accu, I, I-1),
             % verschiebung
-            insert_c_(NewAccu, I-1,Vergleich+1,Verschiebung+1);
+            insert(NewAccu, I-1, Vergleich+1, Verschiebung+1);
           true ->
-            {Accu,Vergleich+1,Verschiebung}
+            {Vergleich+1, Verschiebung, Accu}
         end.
