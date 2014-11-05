@@ -94,14 +94,14 @@ worst_main(Sort,Num,Indicators,Counter) ->
 get_indicators(Indicators,Sort,Num) -> 			
 					{Time_o,Comp_o,Swaps_o} = Indicators,
 					{Time,Comp,Swaps} = sort(Sort),
-					{ok,File} = file:open('log.cvs',[write,append]),
+					{ok,File} = file:open('log.csv',[write,append]),
 					[T] = Time,
 					[C] = Comp,
 					[S] = Swaps,
 					Format = "~s, ~b, ~b, ~b, ~b \r\n",
 					Argumente = [Sort,Num,T,C,S],
 					io:fwrite(File, Format,Argumente),
-					file:close('log.csv'),
+					file:close(File),
 					NewIndicators = {Time_o ++ Time, Comp_o ++ Comp, Swaps_o ++ Swaps},
 					NewIndicators.
 			

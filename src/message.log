@@ -75,3 +75,58 @@ Minimal Comparisions: 230
 Total Switches: 1424 
 Maximal Switches: 19 
 Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 100 Elements
+Total Time: 46044517 mics
+Maximal Time: 494035 mics
+Minimal Time: 419554 mics
+Total Comparisions: 515000 
+Maximal Comparisions: 5150 
+Minimal Comparisions: 5150 
+Total Switches: 8114 
+Maximal Switches: 98 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 575923 mics
+Maximal Time: 8481 mics
+Minimal Time: 4740 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1423 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: insertion_c 
+Number of Elements: 20 Elements
+Total Time: 685952 mics
+Maximal Time: 12512 mics
+Minimal Time: 448 mics
+Total Comparisions: 10805 
+Maximal Comparisions: 190 
+Minimal Comparisions: 19 
+Total Switches: 9292 
+Maximal Switches: 190 
+Minimal Switches: 0 
+Algorithmus: insertion_c 
+Number of Elements: 100 Elements
+Total Time: 68647223 mics
+Maximal Time: 1208947 mics
+Minimal Time: 8211 mics
+Total Comparisions: 256628 
+Maximal Comparisions: 4950 
+Minimal Comparisions: 99 
+Total Switches: 248080 
+Maximal Switches: 4950 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 100 Elements
+Total Time: 45603403 mics
+Maximal Time: 474691 mics
+Minimal Time: 416763 mics
+Total Comparisions: 515000 
+Maximal Comparisions: 5150 
+Minimal Comparisions: 5150 
+Total Switches: 8128 
+Maximal Switches: 99 
+Minimal Switches: 0 
