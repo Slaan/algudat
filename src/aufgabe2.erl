@@ -32,6 +32,7 @@ main(Sort,Num,Case) ->
 % Sortierung dieser und anschließende Ausgabe der Indikatoren.
 
 main_(Sort,Num,Indicators) ->
+		start_log(),
 		Indicators_Random = random_main(Sort,Num,Indicators,80),
 		Indicators_Best = best_main(Sort,Num,Indicators,10),
 		Indicators_Worst = worst_main(Sort,Num,Indicators,10),
@@ -72,28 +73,36 @@ get_content() ->	util:file_read('daten.dat').
 random_main(_,_,Indicators,0) -> Indicators;
 random_main(Sort,Num,Indicators,Counter) ->
 					util:zahlenfolge('daten.dat',Num,1,Num*2,rd),
-					NewIndicators = get_indicators(Indicators,Sort),
+					NewIndicators = get_indicators(Indicators,Sort,Num),
 					random_main(Sort,Num,NewIndicators,Counter-1).					
 
 %Führt den Algorithmus auf einer bereits sortierten Liste aus, best case szenario.
 best_main(_,_,Indicators,0) -> Indicators;
 best_main(Sort,Num,Indicators,Counter) ->
 					util:zahlenfolge('daten.dat',Num,1,Num*2,bc),
-					NewIndicators = get_indicators(Indicators,Sort),
+					NewIndicators = get_indicators(Indicators,Sort,Num),
 					best_main(Sort,Num,NewIndicators,Counter-1).
 
 %Führt den Algorithmus auf einer "falschrum" sortierten Liste aus, worst case szenario.
 worst_main(_,_,Indicators,0) -> Indicators;
 worst_main(Sort,Num,Indicators,Counter) ->
 					util:zahlenfolge('daten.dat',Num,1,Num*2,wc),
-					NewIndicators = get_indicators(Indicators,Sort),
+					NewIndicators = get_indicators(Indicators,Sort,Num),
 					worst_main(Sort,Num,NewIndicators,Counter-1).
 					
 %Gibt die neuen Indicators nach der Ausführung des Algorithmus zurück.
-get_indicators(Indicators,Sort) -> 			
+get_indicators(Indicators,Sort,Num) -> 			
 					{Time_o,Comp_o,Swaps_o} = Indicators,
 					{Time,Comp,Swaps} = sort(Sort),
-					NewIndicators = {Time ++ Time_o,Comp ++ Comp_o,Swaps ++ Swaps_o},
+					{ok,File} = file:open('log.cvs',[write,append]),
+					[T] = Time,
+					[C] = Comp,
+					[S] = Swaps,
+					Format = "~s, ~b, ~b, ~b, ~b \r\n",
+					Argumente = [Sort,Num,T,C,S],
+					io:fwrite(File, Format,Argumente),
+					file:close('log.csv'),
+					NewIndicators = {Time_o ++ Time, Comp_o ++ Comp, Swaps_o ++ Swaps},
 					NewIndicators.
 			
 %Schreibt die Ausgabe auf die Konsole und in die Datei 'Message.log'.
@@ -108,7 +117,7 @@ generate_output(Sort,Num,Indicators) ->
 		  Vs_total = lists:sum(Verschiebung),
 		  Vs_max = util:max(Verschiebung),
 		  Vs_min = util:min(Verschiebung),
-		  {ok,File} = file:open('message.log',[write]),
+		  {ok,File} = file:open('message.log',[write,append]),
 		  Format = "Algorithmus: ~s \r\n"
 				   "Number of Elements: ~b Elements\r\n"
 				   "Total Time: ~b mics\r\n"
@@ -125,6 +134,12 @@ generate_output(Sort,Num,Indicators) ->
 			file:close(File),
 			io:fwrite(Format,Arguments).
 
+start_log() ->
+	{ok,File} = file:open('log.csv',[write]),
+	Format = "Algorithmus, Anzahl Elemente, Zeit, Vergleiche, Verschiebung \r\n",
+	io:fwrite(File,Format,[]),
+	file:close(File).
+			
 main_single_rd(Sort,Num,Indicators) -> 
 	NewIndicators = random_main(Sort,Num,Indicators,1),
 	generate_output(Sort,Num,NewIndicators).

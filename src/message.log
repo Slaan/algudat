@@ -1,11 +1,77 @@
-Algorithmus: insertion_c 
+Algorithmus: selection_c 
 Number of Elements: 20 Elements
-Total Time: 30000 mics
-Maximal Time: 30000 mics
-Minimal Time: 30000 mics
-Total Comparisions: 118 
-Maximal Comparisions: 118 
-Minimal Comparisions: 118 
-Total Switches: 98 
-Maximal Switches: 98 
-Minimal Switches: 98 
+Total Time: 782000 mics
+Maximal Time: 16000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1430 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 749000 mics
+Maximal Time: 16000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1456 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 779000 mics
+Maximal Time: 16000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1423 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 812000 mics
+Maximal Time: 31000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1422 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 750000 mics
+Maximal Time: 31000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1420 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 856000 mics
+Maximal Time: 31000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1424 
+Maximal Switches: 19 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 20 Elements
+Total Time: 768000 mics
+Maximal Time: 16000 mics
+Minimal Time: 0 mics
+Total Comparisions: 23000 
+Maximal Comparisions: 230 
+Minimal Comparisions: 230 
+Total Switches: 1424 
+Maximal Switches: 19 
+Minimal Switches: 0 

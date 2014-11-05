@@ -6,8 +6,8 @@
 % Selection Sort
 % sel_sort(array) -> array
 sel_sort({}) -> {};
-sel_sort(Array) -> util:countstop(vergleich),
-				   util:countstop(verschiebung),
+sel_sort(Array) -> util:countreset(vergleich),
+				   util:countreset(verschiebung),
 				   I = array:lengthA(Array),
 				   sel_sort(Array,0,I).
 
@@ -15,7 +15,7 @@ sel_sort(Array,I,I) -> Array;
 sel_sort(Array,I,Length) -> MinPos = getMin(Array,I,I,Length),
 							case (MinPos==I) of
 							true -> NewArray = Array,
-									util:counting(vergleich,1);
+							  		 util:counting(vergleich,1);
 							false -> NewArray = swap(Array,I,MinPos),
 									 util:counting(verschiebung,1),
 									 util:counting(vergleich,1)
