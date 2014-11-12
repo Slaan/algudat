@@ -46,24 +46,37 @@ main_(Sort,Num,Indicators) ->
 %Lädt eine Liste aus der Datei 'daten.dat', und sortiert diese je nach algorithmus und
 %je nachdem ob Zähler gewünscht sind oder nicht.
 sort(Sort) ->
-			Unsorted = get_content(),
-			case Sort of
-					selection -> {Time,Sorted} = timer:tc(sel_sort,sel_sort,[Unsorted]),
-								 util:file_write('sortiert.dat',Sorted),
-								 {[Time],[],[]};
-					selection_c -> {Time,Result} = timer:tc(sel_sort,sel_sort_counter,[Unsorted]),
-								 {Vergleich,Verschiebung,Sorted} = Result,
-								 util:file_write('sortiert.dat',Sorted),
-								 {[Time],[Vergleich],[Verschiebung]};
-								
-					insertion -> {Time,Sorted} = timer:tc(ins_sort,insertionsort,[Unsorted]),
-								 util:file_write('sortiert.dat',Sorted),
-								 {[Time],[],[]};
-					insertion_c -> {Time,Result} = timer:tc(ins_sort,ins_sort_counter,[Unsorted]),
-								 {Vergleich,Verschiebung,Sorted} = Result,
-								 util:file_write('sortiert.dat',Sorted),
-								 {[Time],[Vergleich],[Verschiebung]}
-			end.
+	Unsorted = get_content(),
+	case Sort of
+		selection -> {Time,Sorted} = timer:tc(sel_sort,sel_sort,[Unsorted]),
+	 			 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[],[]};
+		selection_c -> {Time,Result} = timer:tc(sel_sort,sel_sort_counter,[Unsorted]),
+				 {Vergleich,Verschiebung,Sorted} = Result,
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[Vergleich],[Verschiebung]};							
+		insertion -> {Time,Sorted} = timer:tc(ins_sort,insertionsort,[Unsorted]),
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[],[]};
+		insertion_c -> {Time,Result} = timer:tc(ins_sort,ins_sort_counter,[Unsorted]),
+				 {Vergleich,Verschiebung,Sorted} = Result,
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[Vergleich],[Verschiebung]};
+		quick -> {Time,Sorted} = timer:tc(q_sort,quicksort,[Unsorted]),
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[],[]};
+		quick_c -> {Time,Result} = timer:tc(q_sort,quicksort_counter,[Unsorted]),
+				 {Vergleich,Verschiebung,Sorted} = Result,
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[Vergleich],[Verschiebung]};
+		quick_rd -> {Time,Sorted} = timer:tc(q_sort,quicksort_rd,[Unsorted]),
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[],[]};
+		quick_rd_c -> {Time,Result} = timer:tc(ins_sort,quicksort_rd_counter,[Unsorted]),
+				 {Vergleich,Verschiebung,Sorted} = Result,
+				 util:file_write('sortiert.dat',Sorted),
+				 {[Time],[Vergleich],[Verschiebung]}
+	end.
 			
 			
 %Lädt aus der Datei 'daten.dat'.			

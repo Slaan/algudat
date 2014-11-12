@@ -130,3 +130,25 @@ Minimal Comparisions: 5150
 Total Switches: 8128 
 Maximal Switches: 99 
 Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 50 Elements
+Total Time: 451014 mics
+Maximal Time: 6159 mics
+Minimal Time: 3851 mics
+Total Comparisions: 132500 
+Maximal Comparisions: 1325 
+Minimal Comparisions: 1325 
+Total Switches: 3925 
+Maximal Switches: 49 
+Minimal Switches: 0 
+Algorithmus: selection_c 
+Number of Elements: 200 Elements
+Total Time: 25088443 mics
+Maximal Time: 258905 mics
+Minimal Time: 232025 mics
+Total Comparisions: 2030000 
+Maximal Comparisions: 20300 
+Minimal Comparisions: 20300 
+Total Switches: 16540 
+Maximal Switches: 198 
+Minimal Switches: 0 
