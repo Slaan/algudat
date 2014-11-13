@@ -50,29 +50,29 @@ sort(Sort) ->
 	case Sort of
 		selection -> {Time,Sorted} = timer:tc(sel_sort,sel_sort,[Unsorted]),
 	 			 util:file_write('sortiert.dat',Sorted),
-				 {[Time],[],[]};
+				 {[Time],[0],[0]};
 		selection_c -> {Time,Result} = timer:tc(sel_sort,sel_sort_counter,[Unsorted]),
 				 {Vergleich,Verschiebung,Sorted} = Result,
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[Vergleich],[Verschiebung]};							
 		insertion -> {Time,Sorted} = timer:tc(ins_sort,insertionsort,[Unsorted]),
 				 util:file_write('sortiert.dat',Sorted),
-				 {[Time],[],[]};
+				 {[Time],[0],[0]};
 		insertion_c -> {Time,Result} = timer:tc(ins_sort,ins_sort_counter,[Unsorted]),
 				 {Vergleich,Verschiebung,Sorted} = Result,
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[Vergleich],[Verschiebung]};
-		quick -> {Time,Sorted} = timer:tc(q_sort,quicksort,[Unsorted]),
+		quick -> {Time,Sorted} = timer:tc(q_sort,quicksort,[Unsorted,left]),
 				 util:file_write('sortiert.dat',Sorted),
-				 {[Time],[],[]};
-		quick_c -> {Time,Result} = timer:tc(q_sort,quicksort_counter,[Unsorted]),
+				 {[Time],[0],[0]};
+		quick_c -> {Time,Result} = timer:tc(q_sort,quicksort_counter,[Unsorted,left]),
 				 {Vergleich,Verschiebung,Sorted} = Result,
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[Vergleich],[Verschiebung]};
-		quick_rd -> {Time,Sorted} = timer:tc(q_sort,quicksort_rd,[Unsorted]),
+		quick_rd -> {Time,Sorted} = timer:tc(q_sort,quicksort,[Unsorted,random]),
 				 util:file_write('sortiert.dat',Sorted),
-				 {[Time],[],[]};
-		quick_rd_c -> {Time,Result} = timer:tc(ins_sort,quicksort_rd_counter,[Unsorted]),
+				 {[Time],[0],[0]};
+		quick_rd_c -> {Time,Result} = timer:tc(ins_sort,quicksort_rd_counter,[Unsorted,random]),
 				 {Vergleich,Verschiebung,Sorted} = Result,
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[Vergleich],[Verschiebung]}
