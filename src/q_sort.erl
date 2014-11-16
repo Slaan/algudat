@@ -20,8 +20,8 @@ quicksort(Unsorted,Case) -> Length = array:lengthA(Unsorted),
 
 getPivot(Case,Array,Length) ->
 		    case Case of
-			left -> PivotPos = 0;
-			random -> PivotPos = random:uniform(Length)-1
+				left -> PivotPos = 0;
+				random -> PivotPos = random:uniform(Length)-1
 		    end,
 		    Pivot = array:getA(Array,PivotPos),
 		    NewArray = util:swap(Array,0,PivotPos),
@@ -47,7 +47,7 @@ append(A1,Pivot,A2) ->
 	append(NewA1,Length1+1,A2,0,Length2).
 
 append(A1,_L1,_A2,I,I) -> A1;
-append(A1,L1,A2,I2,L2) -> Elem = 
+append(A1,L1,A2,I2,L2) -> 
 	Elem = array:getA(A2,I2),
 	NewA1 = array:setA(A1,L1,Elem),
 	append(NewA1,L1+1,A2,I2+1,L2).

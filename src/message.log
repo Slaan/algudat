@@ -229,3 +229,36 @@ Minimal Comparisions: 0
 Total Switches: 0 
 Maximal Switches: 0 
 Minimal Switches: 0 
+Algorithmus: quick 
+Number of Elements: 50 Elements
+Total Time: 3057000 mics
+Maximal Time: 124000 mics
+Minimal Time: 11000 mics
+Total Comparisions: 0 
+Maximal Comparisions: 0 
+Minimal Comparisions: 0 
+Total Switches: 0 
+Maximal Switches: 0 
+Minimal Switches: 0 
+Algorithmus: quick 
+Number of Elements: 200 Elements
+Total Time: 112037000 mics
+Maximal Time: 6475000 mics
+Minimal Time: 136000 mics
+Total Comparisions: 0 
+Maximal Comparisions: 0 
+Minimal Comparisions: 0 
+Total Switches: 0 
+Maximal Switches: 0 
+Minimal Switches: 0 
+Algorithmus: quick_rd 
+Number of Elements: 200 Elements
+Total Time: 20081000 mics
+Maximal Time: 380000 mics
+Minimal Time: 138000 mics
+Total Comparisions: 0 
+Maximal Comparisions: 0 
+Minimal Comparisions: 0 
+Total Switches: 0 
+Maximal Switches: 0 
+Minimal Switches: 0 
