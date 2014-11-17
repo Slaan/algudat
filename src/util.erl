@@ -119,23 +119,3 @@ countloop(Count) -> receive
 						reset -> countloop(0);
 						kill -> true
 					end.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Zweiter Zähler					
-
-counting_(Counter,Step) -> Known = erlang:whereis(Counter),
-						 case Known of
-							undefined -> PIDcountdh = spawn(fun() -> countloop_(0) end),
-										 erlang:register(Counter,PIDcountdh);
-							_NotUndef -> ok
-						 end,
-						 Counter ! {count,Step},
-						 ok.
-						 
-countloop_(Count) -> receive
-						{count,Num} -> countloop_(Count+Num);
-						{get,PID} -> PID ! {current,Count},
-									countloop_(Count);
-						reset -> countloop_(0);
-						kill -> true
-					end.

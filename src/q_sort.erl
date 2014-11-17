@@ -58,6 +58,7 @@ quicksort_counter(Unsorted,Case) -> util:countreset(verschiebung),
 				   {Vergleich1,Verschiebung1,Sorted} = quicksort_counter_(Unsorted,Case),
 				   Vergleich2 = util:countread(vergleich),
 				   Verschiebung2 = util:countread(verschiebung),
+				   io:fwrite("~b, ~b \r\n",[Vergleich2,Verschiebung2]),
 				   Vergleich = Vergleich1+Vergleich2,
 				   Verschiebung = Verschiebung1+Verschiebung2,
 				   {Vergleich,Verschiebung,Sorted}. 
@@ -87,7 +88,7 @@ partition_(Unsorted,Pivot,CurIndex,Length,Left,LeftIndex,Right,RightIndex) ->
 	util:counting(verschiebung,1),
 	case (CurElem<Pivot) of
 		true -> NewLeft = array:setA(Left,LeftIndex,CurElem),
-			partition(Unsorted,Pivot,CurIndex+1,Length,NewLeft,LeftIndex+1,Right,RightIndex);
+			partition_(Unsorted,Pivot,CurIndex+1,Length,NewLeft,LeftIndex+1,Right,RightIndex);
 		false -> NewRight = array:setA(Right,RightIndex,CurElem),
-			partition(Unsorted,Pivot,CurIndex+1,Length,Left,LeftIndex,NewRight,RightIndex+1)
+			partition_(Unsorted,Pivot,CurIndex+1,Length,Left,LeftIndex,NewRight,RightIndex+1)
 	end.
