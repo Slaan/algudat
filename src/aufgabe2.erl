@@ -72,7 +72,7 @@ sort(Sort) ->
 		quick_rd -> {Time,Sorted} = timer:tc(q_sort,quicksort,[Unsorted,random]),
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[0],[0]};
-		quick_rd_c -> {Time,Result} = timer:tc(ins_sort,quicksort_rd_counter,[Unsorted,random]),
+		quick_rd_c -> {Time,Result} = timer:tc(q_sort,quicksort_counter,[Unsorted,random]),
 				 {Vergleich,Verschiebung,Sorted} = Result,
 				 util:file_write('sortiert.dat',Sorted),
 				 {[Time],[Vergleich],[Verschiebung]}

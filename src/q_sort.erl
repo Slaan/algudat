@@ -52,3 +52,42 @@ append(A1,L1,A2,I2,L2) -> Elem =
 	NewA1 = array:setA(A1,L1,Elem),
 	append(NewA1,L1+1,A2,I2+1,L2).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+quicksort_counter(Unsorted,Case) -> util:countreset(verschiebung),
+				   util:countreset(vergleich),
+				   {Vergleich1,Verschiebung1,Sorted} = quicksort_counter_(Unsorted,Case),
+				   Vergleich2 = util:countread(vergleich),
+				   Verschiebung2 = util:countread(verschiebung),
+				   Vergleich = Vergleich1+Vergleich2,
+				   Verschiebung = Verschiebung1+Verschiebung2,
+				   {Vergleich,Verschiebung,Sorted}. 
+
+quicksort_counter_(Unsorted,Case) -> Length = array:lengthA(Unsorted),
+		    case (Length<12) of
+			true -> {Vergleich,Verschiebung,Sorted} = sel_sort:sel_sort_counter(Unsorted);
+			false -> case Case of
+					 left -> {NewArray,Pivot} = getPivot(left,Unsorted,Length);
+					 random -> {NewArray,Pivot} = getPivot(random,Unsorted,Length)
+				 end,
+		         	 {Left,Right} = partition_(NewArray,Pivot,Length),
+		    		 {Vergleich1,Verschiebung1,SoLeft} = quicksort_counter_(Left,Case),
+		    		 {Vergleich2,Verschiebung2,SoRight} = quicksort_counter_(Right,Case),
+		    		 Sorted = append(SoLeft,Pivot,SoRight),
+				 Vergleich = Vergleich1+Vergleich2,
+				 Verschiebung = Verschiebung1+Verschiebung2
+		    end,
+		    {Vergleich,Verschiebung,Sorted}.
+
+partition_(Unsorted,Pivot,Length) -> partition_(Unsorted,Pivot,1,Length,{},0,{},0).
+
+partition_(_Unsorted,_Pivot,I,I,Left,_LeftIndex,Right,_RightIndex) -> {Left,Right};
+partition_(Unsorted,Pivot,CurIndex,Length,Left,LeftIndex,Right,RightIndex) ->
+	CurElem = array:getA(Unsorted,CurIndex),
+	util:counting(vergleich,1),
+	util:counting(verschiebung,1),
+	case (CurElem<Pivot) of
+		true -> NewLeft = array:setA(Left,LeftIndex,CurElem),
+			partition(Unsorted,Pivot,CurIndex+1,Length,NewLeft,LeftIndex+1,Right,RightIndex);
+		false -> NewRight = array:setA(Right,RightIndex,CurElem),
+			partition(Unsorted,Pivot,CurIndex+1,Length,Left,LeftIndex,NewRight,RightIndex+1)
+	end.
