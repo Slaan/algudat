@@ -58,7 +58,6 @@ quicksort_counter(Unsorted,Case) -> util:countreset(verschiebung),
 				   {Vergleich1,Verschiebung1,Sorted} = quicksort_counter_(Unsorted,Case),
 				   Vergleich2 = util:countread(vergleich),
 				   Verschiebung2 = util:countread(verschiebung),
-				   io:fwrite("~b, ~b \r\n",[Vergleich2,Verschiebung2]),
 				   Vergleich = Vergleich1+Vergleich2,
 				   Verschiebung = Verschiebung1+Verschiebung2,
 				   {Vergleich,Verschiebung,Sorted}. 

@@ -33,9 +33,9 @@ main(Sort,Num,Case) ->
 
 main_(Sort,Num,Indicators) ->
 		start_log(),
-		Indicators_Random = random_main(Sort,Num,Indicators,80),
-		Indicators_Best = best_main(Sort,Num,Indicators,10),
-		Indicators_Worst = worst_main(Sort,Num,Indicators,10),
+		Indicators_Random = random_main(Sort,Num,Indicators,80,1),
+		Indicators_Best = best_main(Sort,Num,Indicators,10,1),
+		Indicators_Worst = worst_main(Sort,Num,Indicators,10,1),
 		{Time_r,Vergleiche_r,Verschieben_r} = Indicators_Random,
 		{Time_b,Vergleiche_b,Verschieben_b} = Indicators_Best,
 		{Time_w,Vergleiche_w,Verschieben_w} = Indicators_Worst,
@@ -83,25 +83,26 @@ sort(Sort) ->
 get_content() ->	util:file_read('daten.dat').
 
 %Führt den Algorithmus eine bestimmte Anzahl (Counter) auf Zufallszahlen aus.
-random_main(_,_,Indicators,0) -> Indicators;
-random_main(Sort,Num,Indicators,Counter) ->
+random_main(_,_,Indicators,0,_) -> Indicators;
+random_main(Sort,Num,Indicators,Counter, C1) ->
+					io:fwrite("Random Cases: ~b \r\n",[C1]),
 					util:zahlenfolge('daten.dat',Num,1,Num*2,rd),
 					NewIndicators = get_indicators(Indicators,Sort,Num),
-					random_main(Sort,Num,NewIndicators,Counter-1).					
+					random_main(Sort,Num,NewIndicators,Counter-1,C1+1).					
 
 %Führt den Algorithmus auf einer bereits sortierten Liste aus, best case szenario.
-best_main(_,_,Indicators,0) -> Indicators;
-best_main(Sort,Num,Indicators,Counter) ->
+best_main(_,_,Indicators,0,_) -> Indicators;
+best_main(Sort,Num,Indicators,Counter,C1) ->io:fwrite("Best Cases: ~b \r\n",[C1]),
 					util:zahlenfolge('daten.dat',Num,1,Num*2,bc),
 					NewIndicators = get_indicators(Indicators,Sort,Num),
-					best_main(Sort,Num,NewIndicators,Counter-1).
+					best_main(Sort,Num,NewIndicators,Counter-1,C1+1).
 
 %Führt den Algorithmus auf einer "falschrum" sortierten Liste aus, worst case szenario.
-worst_main(_,_,Indicators,0) -> Indicators;
-worst_main(Sort,Num,Indicators,Counter) ->
+worst_main(_,_,Indicators,0,_) -> Indicators;
+worst_main(Sort,Num,Indicators,Counter,C1) ->io:fwrite("Worst Cases: ~b \r\n",[C1]),
 					util:zahlenfolge('daten.dat',Num,1,Num*2,wc),
 					NewIndicators = get_indicators(Indicators,Sort,Num),
-					worst_main(Sort,Num,NewIndicators,Counter-1).
+					worst_main(Sort,Num,NewIndicators,Counter-1,C1+1).
 					
 %Gibt die neuen Indicators nach der Ausführung des Algorithmus zurück.
 get_indicators(Indicators,Sort,Num) -> 			
@@ -154,12 +155,12 @@ start_log() ->
 	file:close(File).
 			
 main_single_rd(Sort,Num,Indicators) -> 
-	NewIndicators = random_main(Sort,Num,Indicators,1),
+	NewIndicators = random_main(Sort,Num,Indicators,1,1),
 	generate_output(Sort,Num,NewIndicators).
 main_single_bc(Sort,Num,Indicators) -> 
-	NewIndicators = best_main(Sort,Num,Indicators,1),
+	NewIndicators = best_main(Sort,Num,Indicators,1,1),
 	generate_output(Sort,Num,NewIndicators).
 main_single_wc(Sort,Num,Indicators) ->
-	NewIndicators = worst_main(Sort,Num,Indicators,1),
+	NewIndicators = worst_main(Sort,Num,Indicators,1,1),
 	generate_output(Sort,Num,NewIndicators).
 	
