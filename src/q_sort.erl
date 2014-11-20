@@ -54,7 +54,7 @@ append(A1,L1,A2,I2,L2) ->
 	NewA1 = array:setA(A1,L1,Elem),
 	append(NewA1,L1+1,A2,I2+1,L2).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 quicksort_counter(Unsorted,Case) -> util:countreset(verschiebung),
 				   util:countreset(vergleich),
 				   {Vergleich1,Verschiebung1,Sorted} = quicksort_counter_(Unsorted,Case),
