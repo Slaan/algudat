@@ -8,11 +8,8 @@
 quicksort(Unsorted,Case) -> Length = array:lengthA(Unsorted),
 		    case (Length<12) of
 			true -> Sorted = sel_sort:sel_sort(Unsorted);
-			false -> case Case of
-					 left -> {NewArray,Pivot} = getPivot(left,Unsorted,Length);
-					 random -> {NewArray,Pivot} = getPivot(random,Unsorted,Length)
-				 end,
-		         	 {Left,Right} = partition(NewArray,Pivot,Length),
+			false -> {NewArray,Pivot} = getPivot(Case,Unsorted,Length),
+				   	 {Left,Right} = partition(NewArray,Pivot,Length),
 		    		 SoLeft = quicksort(Left,Case),
 		    		 SoRight = quicksort(Right,Case),
 		    		 Sorted = append(SoLeft,Pivot,SoRight)
