@@ -4,6 +4,7 @@
 -compile(export_all).
 -compile(array).
 
+% Hauptaufruf
 quicksort(Unsorted,Case) -> Length = array:lengthA(Unsorted),
 		    case (Length<12) of
 			true -> Sorted = sel_sort:sel_sort(Unsorted);
@@ -18,6 +19,8 @@ quicksort(Unsorted,Case) -> Length = array:lengthA(Unsorted),
 		    end,
 		    Sorted.
 
+%Gibt das gesuchte Pivotelement je nach gewünschter Methode zurück
+%und setzt es an die erste Stelle des Arrays.
 getPivot(Case,Array,Length) ->
 		    case Case of
 				left -> PivotPos = 0;
@@ -27,7 +30,8 @@ getPivot(Case,Array,Length) ->
 		    NewArray = util:swap(Array,0,PivotPos),
 		    {NewArray,Pivot}.
 
-%partition_(Unsorted,Pivot,CurIndex,Length,Left,LeftIndex,Right,RightIndex)
+%partition(Unsorted,Pivot,CurIndex,Length,Left,LeftIndex,Right,RightIndex)
+%spaltet das Eingabearray am Pivotelement in ein linkes und ein rechts Array
 partition(Unsorted,Pivot,Length) -> partition(Unsorted,Pivot,1,Length,{},0,{},0).
 
 partition(_Unsorted,_Pivot,I,I,Left,_LeftIndex,Right,_RightIndex) -> {Left,Right};
@@ -40,6 +44,7 @@ partition(Unsorted,Pivot,CurIndex,Length,Left,LeftIndex,Right,RightIndex) ->
 			partition(Unsorted,Pivot,CurIndex+1,Length,Left,LeftIndex,NewRight,RightIndex+1)
 	end.
 
+%append/3 klebt zwei Array mit einem Pivot dazwischen zusammen.
 append(A1,Pivot,A2) ->
 	Length1 = array:lengthA(A1),
 	Length2 = array:lengthA(A2),
