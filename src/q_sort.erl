@@ -7,7 +7,7 @@
 % Hauptaufruf
 quicksort(Unsorted,Case) -> Length = array:lengthA(Unsorted),
 		    case (Length<12) of
-			true -> Sorted = sel_sort:sel_sort(Unsorted);
+			true -> Sorted = sel_sort:sel_sort_counter(Unsorted);
 			false -> {NewArray,Pivot} = getPivot(Case,Unsorted,Length),
 				   	 {Left,Right} = partition(NewArray,Pivot,Length),
 		    		 SoLeft = quicksort(Left,Case),
