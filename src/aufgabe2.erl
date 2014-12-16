@@ -163,4 +163,3 @@ main_single_bc(Sort,Num,Indicators) ->
 main_single_wc(Sort,Num,Indicators) ->
 	NewIndicators = worst_main(Sort,Num,Indicators,1,1),
 	generate_output(Sort,Num,NewIndicators).
-	

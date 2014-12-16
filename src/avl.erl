@@ -4,15 +4,8 @@
 
 init(A) -> {open,{A,0,0},open}.
 
-add(Tree,A) ->
-	{_Left,{Elem,_,_},_Right} = Tree,
-	case (A==Elem) of
-		true -> Result = Tree;
-		false -> Result = add_(Tree,A)
-	end,
-	Result.
-	
-add_(OldTree,A) -> 
+add({L,{Elem,H,B},R},Elem) -> {L,{Elem,H,B},R};			% Elemente Abfangen die bereits im Baum sind
+add(OldTree,A) -> 
 	{Left,Node,Right} = OldTree,
 	{Cur,_Height,_Balance} = Node,
 	case (A<Cur) of
@@ -30,10 +23,11 @@ add_(OldTree,A) ->
 	NewTree = update(CurTree),
 	update_balance(NewTree).
 	
+delete(open,_) -> open;
 delete(Tree,Elem) ->
 	{Left,{Cur,Height,Balance},Right} = Tree,
 	case (Elem==Cur) of
-		true -> Result = delete_(Tree,Elem);
+		true -> Result = delete_(Tree);
 		false -> case (Elem<Cur) of
 				true -> NewTree = delete(Left,Elem),
 					Result={NewTree,{Cur,Height,Balance},Right};
@@ -43,17 +37,17 @@ delete(Tree,Elem) ->
 	end,
 	update(Result).
 	
-delete_(Tree,Elem) ->
-	{Left,{Cur,_,_},Right} = Tree,
+delete_(Tree) ->
+	{Left,_,Right} = Tree,
 	case (Left==Right) of
 		true -> Result = open;
-		false -> {_,{_,LeftHeight,_},_} = Left,
-		 	 {_,{_,RightHeight,_},_} = Right,
-			 case (LeftHeight<RightHeight) of
-			 	true -> {NewRight,SwitchNode} = get_most_left_neighbour(Right),
-			 		NewLeft = Left;
-			 	false -> {NewLeft,SwitchNode} = get_most_right_neighbour(Left),
-			 		NewRight = Right
+		false -> LeftHeight = get_height(Left),
+				RightHeight = get_height(Right),
+				case (LeftHeight<RightHeight) of
+					true -> {NewRight,SwitchNode} = get_most_left_neighbour(Right),
+						NewLeft = Left;
+					false -> {NewLeft,SwitchNode} = get_most_right_neighbour(Left),
+						NewRight = Right
 			 end,
 			 Result = {NewLeft,SwitchNode,NewRight}
 	end,
@@ -92,29 +86,32 @@ build_easy_tree() ->
 			
 update(open) -> open;
 update(Tree) ->
-	{Left,{Cur,_,_},Right} = Tree,
-	case Left of
-		open -> LeftHeight = -1,
-			LeftBalance = 0;
-		_ -> {_,{_,LeftHeight,LeftBalance},_} = Left
-	end,
-	case Right of
-		open -> RightHeight = -1,
-			RightBalance = 0;
-		_ -> {_,{_,RightHeight,RightBalance},_} = Right
-	end,
+	{Left,{Cur,_,B},Right} = Tree,
+	LeftHeight = get_height(Left),
+	LeftBalance = get_balance(Left),
+	RightHeight = get_height(Right),
+	RightBalance = get_balance(Right),
+	Height = max(LeftHeight,RightHeight)+1,
+	NewTree = {Left,{Cur,Height,B},Right},
 	NewBalance = RightHeight-(LeftHeight),
 	case NewBalance of
 		2 -> case RightBalance of
-			1 -> RotatedTree = left_rotation(Tree);
-			-1 -> RotatedTree = doubleleft_rotation(Tree)
+			1 -> RotatedTree = left_rotation(NewTree),
+				util:counting1(left_rotation);
+			0 -> RotatedTree = left_rotation(NewTree),
+				util:counting1(left_rotation);
+			-1 -> RotatedTree = doubleleft_rotation(NewTree),
+				util:counting1(doubleleft_rotation)
 		     end;
 		-2 -> case LeftBalance of
-			-1 -> RotatedTree = right_rotation(Tree);
-			1 -> RotatedTree = doubleright_rotation(Tree)
+			-1 -> RotatedTree = right_rotation(NewTree),
+				util:counting1(right_rotation);
+			0 -> RotatedTree = right_rotation(NewTree),
+				util:counting1(right_rotation);
+			1 -> RotatedTree = doubleright_rotation(NewTree),
+				util:counting1(doubleright_rotation)
 	  	     end;
-	  	_ -> 	NewHeight = max(LeftHeight,RightHeight)+1,
-	  		RotatedTree = {Left,{Cur,NewHeight,NewBalance},Right}
+	  	_ ->  RotatedTree = NewTree
 	end,
 	update_balance(RotatedTree).
 	
@@ -122,14 +119,8 @@ update_balance(Tree) ->
 	case Tree of
 		open -> Result = open;
 		_ -> 	{Left,{Cur,Height,_},Right} = Tree,
-			case Left of
-				open -> LeftHeight = -1;
-				_ ->{_,{_,LeftHeight,_},_} = Left
-			end,
-			case Right of
-				open -> RightHeight = -1;
-				_ -> {_,{_,RightHeight,_},_} = Right
-			end,
+			LeftHeight = get_height(Left),
+			RightHeight = get_height(Right),
 			NewBalance = RightHeight-(LeftHeight),
 			Result = {Left,{Cur,Height,NewBalance},Right}
 	end,
@@ -138,21 +129,26 @@ update_balance(Tree) ->
 left_rotation(Tree) ->
 	{L1,MNode,{L2,RNode,R}} = Tree,
 	{El,Height,Ba} = MNode,
-	NewMNode = {El,Height-1,Ba},
+	NewMNode = {El,Height-2,Ba},
 	NewLeft = {L1,NewMNode,L2},
 	NewBLeft = update_balance(NewLeft),
-	NewTree = {NewBLeft,RNode,R},
-	update_balance(NewTree).
-	
+	NewR = update_height(R),
+	NewL = update_height(NewBLeft),
+	NewTree = {NewL,RNode,NewR},
+	Result = update_height(NewTree),
+	update_balance(Result).
 
 right_rotation(Tree) -> 
 	{{L,LNode,R2},MNode,R1} = Tree,
 	{El,Height,Ba} = MNode,
-	NewMNode = {El,Height-1,Ba},
+	NewMNode = {El,Height-2,Ba},
 	NewRight = {R2,NewMNode,R1},
 	NewBRight = update_balance(NewRight),
-	NewTree = {L,LNode,NewBRight},
-	update_balance(NewTree).	
+	NewL = update_height(L),
+	NewR = update_height(NewBRight),
+	NewTree = {NewL,LNode,NewR},
+	Result = update_height(NewTree),
+	update_balance(Result).	
 
 doubleright_rotation(Tree) ->
 	{Left,Node,Right} = Tree,
@@ -163,10 +159,20 @@ doubleleft_rotation(Tree) ->
 	{Left,Node,Right} = Tree,
 	NewRight = right_rotation(Right),
 	left_rotation({Left,Node,NewRight}).
+	
+get_height(open) -> -1;
+get_height({_,{_,H,_},_}) -> H.
+	
+get_balance(open) -> 0;
+get_balance({_,{_,_,B},_}) -> B.
 
-
-
-
+update_height(open) -> open;
+update_height(Tree) -> 
+	{Left,{Elem,_,B},Right} = Tree,
+	LeftHeight = get_height(Left),
+	RightHeight = get_height(Right),
+	NewHeight = max(LeftHeight,RightHeight)+1,
+	{Left,{Elem,NewHeight,B},Right}.
 
 
 
