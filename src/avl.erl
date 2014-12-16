@@ -2,7 +2,9 @@
 -compile(export_all).
 -compile(util).
 
+% creates a new avl tree
 init(A) -> {open,{A,0,0},open}.
+
 
 add({L,{Elem,H,B},R},Elem) -> {L,{Elem,H,B},R};			% Elemente Abfangen die bereits im Baum sind
 add(OldTree,A) -> 
@@ -159,6 +161,7 @@ doubleleft_rotation(Tree) ->
 	{Left,Node,Right} = Tree,
 	NewRight = right_rotation(Right),
 	left_rotation({Left,Node,NewRight}).
+
 	
 get_height(open) -> -1;
 get_height({_,{_,H,_},_}) -> H.
@@ -174,15 +177,22 @@ update_height(Tree) ->
 	NewHeight = max(LeftHeight,RightHeight)+1,
 	{Left,{Elem,NewHeight,B},Right}.
 
+write_tree(Path, AVL) -> 
+    {ok, File} = file:open(Path, [write]),
+    io:fwrite(File, "digraph G {\r\n", []),
+    file:open(Path, [write, append]),
+    avl_to_arrow(File, AVL),
+    io:fwrite(File, "}\r\n", []),
+    file:close(File).
 
+avl_to_arrow(File, {open, {E, _, _}, open})     -> io:fwrite(File, "  ~b;\r\n", [E]);
+avl_to_arrow(File, {L, {E, _, _}, R})           -> avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
+avl_to_arrow(_File, _P, open)                     -> ok;
+avl_to_arrow(File, P, {open, {E, _, _}, open})  -> arrow(File, P, E);
+avl_to_arrow(File, P, {open, {E, _, _}, R})     -> arrow(File, P, E), avl_to_arrow(File, E, R);
+avl_to_arrow(File, P, {L, {E, _, _}, open})     -> arrow(File, P, E), avl_to_arrow(File, E, L);
+avl_to_arrow(File, P, {L, {E, _, _}, R})        -> arrow(File, P, E), avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
-
-
-
-
-
-
-
-
+arrow(File, P, E) -> io:fwrite(File, "  ~b -> ~b;\r\n", [P, E]).
 

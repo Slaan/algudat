@@ -2,3 +2,4 @@ src/*.beam
 src/*.log
 src/*.csv
 src/*.dat
+src/*.dot
