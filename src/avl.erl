@@ -2,8 +2,10 @@
 -compile(export_all).
 -compile(util).
 
+% creates a new avl tree
 init(A) -> {open,{A,0,0},open}.
 
+% add an element to 
 add(Tree,A) ->
 	{_Left,{Elem,_,_},_Right} = Tree,
 	case (A==Elem) of
@@ -164,19 +166,22 @@ doubleleft_rotation(Tree) ->
 	NewRight = right_rotation(Right),
 	left_rotation({Left,Node,NewRight}).
 
+write_tree(Path, AVL) -> 
+    {ok, File} = file:open(Path, [write]),
+    io:fwrite(File, "digraph G {\r\n", []),
+    file:open(Path, [write, append]),
+    avl_to_arrow(File, AVL),
+    io:fwrite(File, "}\r\n", []),
+    file:close(File).
 
+avl_to_arrow(File, {open, {E, _, _}, open})     -> io:fwrite(File, "  ~b;\r\n", [E]);
+avl_to_arrow(File, {L, {E, _, _}, R})           -> avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
+avl_to_arrow(File, P, open)                     -> ok;
+avl_to_arrow(File, P, {open, {E, _, _}, open})  -> arrow(File, P, E);
+avl_to_arrow(File, P, {open, {E, _, _}, R})     -> arrow(File, P, E), avl_to_arrow(File, E, R);
+avl_to_arrow(File, P, {L, {E, _, _}, open})     -> arrow(File, P, E), avl_to_arrow(File, E, L);
+avl_to_arrow(File, P, {L, {E, _, _}, R})        -> arrow(File, P, E), avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
-
-
-
-
-
-
-
-
-
-
-
-
+arrow(File, P, E) -> io:fwrite(File, "  ~b -> ~b;\r\n", [P, E]).
 
