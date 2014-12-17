@@ -5,7 +5,9 @@
 % creates a new avl tree
 init(A) -> {open,{A,0,0},open}.
 
-
+% adds an element to an avl tree
+% First   - AVL Tree
+% Second  - Element to insert
 add({L,{Elem,H,B},R},Elem) -> {L,{Elem,H,B},R};			% Elemente Abfangen die bereits im Baum sind
 add(OldTree,A) -> 
 	{Left,Node,Right} = OldTree,
@@ -25,6 +27,9 @@ add(OldTree,A) ->
 	NewTree = update(CurTree),
 	update_balance(NewTree).
 	
+% removes an element from an avl tree
+% First   - AVL Tree
+% Second  - Element to remove
 delete(open,_) -> open;
 delete(Tree,Elem) ->
 	{Left,{Cur,Height,Balance},Right} = Tree,
@@ -54,7 +59,7 @@ delete_(Tree) ->
 			 Result = {NewLeft,SwitchNode,NewRight}
 	end,
 	update(Result).
-	
+
 get_most_left_neighbour(Tree) ->
 	{Left,Elem,Right} = Tree,
 	case (Left==open) of
@@ -86,6 +91,8 @@ build_easy_tree() ->
 	F = add(E,90),
 	add(F,60).
 			
+% Updates stored height and balance in AVL Tree
+% First   - AVL Tree
 update(open) -> open;
 update(Tree) ->
 	{Left,{Cur,_,B},Right} = Tree,
@@ -162,10 +169,13 @@ doubleleft_rotation(Tree) ->
 	NewRight = right_rotation(Right),
 	left_rotation({Left,Node,NewRight}).
 
-	
+% returns height of current tree	
+% First   - AVL Tree
 get_height(open) -> -1;
 get_height({_,{_,H,_},_}) -> H.
 	
+% returns current balance in root node
+% First   - AVL Tree
 get_balance(open) -> 0;
 get_balance({_,{_,_,B},_}) -> B.
 
@@ -177,6 +187,9 @@ update_height(Tree) ->
 	NewHeight = max(LeftHeight,RightHeight)+1,
 	{Left,{Elem,NewHeight,B},Right}.
 
+% Stores an avl tree in graphviz dot format
+% First   - Path to file
+% Second  - AVL Tree to store
 write_tree(Path, AVL) -> 
     {ok, File} = file:open(Path, [write]),
     io:fwrite(File, "digraph G {\r\n", []),
@@ -189,10 +202,10 @@ avl_to_arrow(File, {open, {E, _, _}, open})     -> io:fwrite(File, "  ~b;\r\n", 
 avl_to_arrow(File, {L, {E, _, _}, R})           -> avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
 avl_to_arrow(_File, _P, open)                     -> ok;
-avl_to_arrow(File, P, {open, {E, _, _}, open})  -> arrow(File, P, E);
-avl_to_arrow(File, P, {open, {E, _, _}, R})     -> arrow(File, P, E), avl_to_arrow(File, E, R);
-avl_to_arrow(File, P, {L, {E, _, _}, open})     -> arrow(File, P, E), avl_to_arrow(File, E, L);
-avl_to_arrow(File, P, {L, {E, _, _}, R})        -> arrow(File, P, E), avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
+avl_to_arrow(File, P, {open, {E, H, _}, open})  -> arrow(File, P, H, E);
+avl_to_arrow(File, P, {open, {E, H, _}, R})     -> arrow(File, P, H, E), avl_to_arrow(File, E, R);
+avl_to_arrow(File, P, {L, {E, H, _}, open})     -> arrow(File, P, H, E), avl_to_arrow(File, E, L);
+avl_to_arrow(File, P, {L, {E, H, _}, R})        -> arrow(File, P, H, E), avl_to_arrow(File, E, L), avl_to_arrow(File, E, R).
 
-arrow(File, P, E) -> io:fwrite(File, "  ~b -> ~b;\r\n", [P, E]).
+arrow(File, P, H, E) -> io:fwrite(File, "  ~b -> ~b [ label=\"~b\"] ;\r\n", [P, E, H]).
 
